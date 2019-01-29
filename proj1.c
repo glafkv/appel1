@@ -30,21 +30,25 @@ int main(int argc, char *argv[])
 			
 			//option i takes in an input file.
 			case 'i':
-				printf("Enter the filename to open\n");
-				scanf("%s", filename);
-				//Open the file
-				fptr = fopen(filename, "r");
-				if(fptr == NULL){
-					printf("Cannot open file\n");
-					exit(0);
-				}
-				//Read contents from file
-				c = fgetc(fptr);
-				while(c != EOF){
-					printf("%c", c);
+				//If the user doesn't put in a file, automatically set it to input.dat. If the user does input a file, set it to what the user input.
+				if(argc != 3){
+					fptr = fopen("input.dat","r");
 					c = fgetc(fptr);
+					while(c != EOF){
+						printf("%c", c);
+						c = fgetc(fptr);
+					}
+					fclose(fptr);
 				}
-				fclose(fptr);
+				else {
+					fptr = fopen(argv[2], "r");
+					c = fgetc(fptr);
+					while(c != EOF){
+						printf("%c", c);
+						c = fgetc(fptr);
+					}
+					fclose(fptr);
+				}
 				exit(0);		
 			case '?':
 				printf("Unknown option: %c\n", optopt);
