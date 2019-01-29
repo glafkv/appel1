@@ -4,12 +4,15 @@
 
 int main(int argc, char *argv[])
 {
-	int n;
-		
-	while((n = getopt(argc, argv, "hio:")) != -1)
+	int v;
+	
+	//while loop to get the argument	
+	while((v = getopt(argc, argv, "hio:")) != -1)
 	{
-		switch(n)
+		//switch statement
+		switch(v)
 		{
+			//option h displays a help message
 			case 'h':
 				printf("\tI'm here to help!\n");
 				printf("\t -h : displays this help message.\n");
@@ -23,13 +26,16 @@ int main(int argc, char *argv[])
 				printf("\t default.\n");
 				exit(0);
 			
+			//option i takes in an input file.
+			case 'i':
+				
+			
+			case ':':
+				printf("Option needs another argument\n");
+				break;
 			case '?':
-				if(optopt == 'n')
-					fprintf(stderr,"Argument 'opt' requires another variable.\n", optopt);
-				else
-					fprintf(stderr, "Unknown option\n");
-		
-				return 1;
+				printf("Unknown option: %c\n", optopt);
+				break;
 			
 			default:
 			abort();
