@@ -4,7 +4,9 @@
 
 int main(int argc, char *argv[])
 {
+	FILE *fptr;
 	int v;
+	char filename[100], c;
 	
 	//while loop to get the argument	
 	while((v = getopt(argc, argv, "hio:")) != -1)
@@ -28,11 +30,22 @@ int main(int argc, char *argv[])
 			
 			//option i takes in an input file.
 			case 'i':
-				
-			
-			case ':':
-				printf("Option needs another argument\n");
-				break;
+				printf("Enter the filename to open\n");
+				scanf("%s", filename);
+				//Open the file
+				fptr = fopen(filename, "r");
+				if(fptr == NULL){
+					printf("Cannot open file\n");
+					exit(0);
+				}
+				//Read contents from file
+				c = fgetc(fptr);
+				while(c != EOF){
+					printf("%c", c);
+					c = fgetc(fptr);
+				}
+				fclose(fptr);
+				exit(0);		
 			case '?':
 				printf("Unknown option: %c\n", optopt);
 				break;
