@@ -5,6 +5,7 @@
 int main(int argc, char *argv[])
 {
 	FILE *fptr;
+	FILE *out;
 	int v;
 	char filename[100], c;
 	
@@ -33,23 +34,28 @@ int main(int argc, char *argv[])
 				//If the user doesn't put in a file, automatically set it to input.dat. If the user does input a file, set it to what the user input.
 				if(argc != 3){
 					fptr = fopen("input.dat","r");
+					out = fopen("output.dat", "w");
 					c = fgetc(fptr);
 					while(c != EOF){
-						printf("%c", c);
+						fprintf(out,"%c", c);
 						c = fgetc(fptr);
 					}
 					fclose(fptr);
 				}
 				else {
 					fptr = fopen(argv[2], "r");
+					out = fopen("tester.out", "w");
 					c = fgetc(fptr);
 					while(c != EOF){
-						printf("%c", c);
+					//	printf("%c", c);
+						fprintf(out, "%c", c);
 						c = fgetc(fptr);
 					}
 					fclose(fptr);
 				}
-				exit(0);		
+				exit(0);	
+			
+	
 			case '?':
 				printf("Unknown option: %c\n", optopt);
 				break;
