@@ -4,13 +4,14 @@
 
 int main(int argc, char *argv[])
 {
-	FILE *fptr;
-	FILE *out;
+	FILE *fptr = NULL;
+	FILE *out = NULL;
+	//char *infile = NULL;
 	int v;
 	char filename[100], c;
 	
 	//while loop to get the argument	
-	while((v = getopt(argc, argv, "hio:")) != -1)
+	while((v = getopt(argc, argv, "hio")) != -1)
 	{
 		//switch statement
 		switch(v)
@@ -33,28 +34,102 @@ int main(int argc, char *argv[])
 			case 'i':
 				//If the user doesn't put in a file, automatically set it to input.dat. If the user does input a file, set it to what the user input.
 				if(argc != 3){
-					fptr = fopen("input.dat","r");
-					out = fopen("output.dat", "w");
+					fptr = fopen("input.dat", "r");
+					if(fptr == NULL){
+						return EXIT_FAILURE;
+					}
+
 					c = fgetc(fptr);
 					while(c != EOF){
-						fprintf(out,"%c", c);
+						printf("%c", c);
 						c = fgetc(fptr);
 					}
+				}else {
+					fptr = fopen(argv[2],"r");
+					if(fptr == NULL){
+						return EXIT_FAILURE;
+					}
+				}
+				break;
+			case 'o':
+			//	if(argc != 3){
+					out = fopen("output.dat", "w");
+					if(out == NULL){
+						fclose(fptr);
+						return EXIT_FAILURE;
+					}
+				//c = fgetc(fptr);
+				//while(c != EOF){
+				//printf("%c", c);
+				//	c = fgetc(fptr);
+				//}
+			//	fclose(fptr);
+			//	fclose(out);
+				/*else{
+					out = fopen(argv[2], "w");
+					if(out == NULL){
+						fclose(fptr);
+						return EXIT_FAILURE;
+			//		}
+				c = fgetc(fptr);
+				while(c != EOF){
+					fprintf(out, "%c", c);
+					c = fgetc(fptr);
+			//	}
+				}*/
+				//fclose(fptr);
+				//fclose(out);
+				break;
+				
+				/*infile = optarg;
+				if(argc != 3){
+					fptr = fopen("input.dat","r");
+					//fptr = optarg;
+					//out = fopen("output.dat", "w");
+					c = fgetc(fptr);
+					while(c != EOF){
+					//	fprintf(out,"%c", c);
+						printf("%c", c);
+						c = fgetc(fptr);
+					}
+					
 					fclose(fptr);
 				}
 				else {
 					fptr = fopen(argv[2], "r");
-					out = fopen("tester.out", "w");
+					
+					//fptr = optarg;
+					//out = fopen("tester.out", "w");
 					c = fgetc(fptr);
 					while(c != EOF){
-					//	printf("%c", c);
-						fprintf(out, "%c", c);
+						printf("%c", c);
+					//	fprintf(out, "%c", c);
 						c = fgetc(fptr);
 					}
 					fclose(fptr);
 				}
-				exit(0);	
-			
+				exit(0);*/	
+			/*case 'o':
+				if(argc != 3)
+				                                                                                   ,k	out = fopen("output.dat","w");
+					c = fgetc(fptr);
+					while(c != EOF){
+						fprintf(out, "%c", c);
+						c = fgetc(fptr);
+					}
+					fclose(out);
+				}
+				else {
+					out = fopen(argv[2], "w");
+					c = fgetc(fptr);
+					while(c != EOF){
+						fprintf(out, "%c", c);
+						c = fgetc(fptr);
+					}
+					fclose(out);
+				}
+				exit(0);*/
+				
 	
 			case '?':
 				printf("Unknown option: %c\n", optopt);
