@@ -50,10 +50,8 @@ int main(int argc, char *argv[])
 					}
 					
 				}
-					fclose(infptr);
-					fclose(outfptr);
-				/*else if(argc == 3){
-					if(argc == 2 && argc == 'i'){
+		
+				else if(argc == 3){
 					
 						infptr = fopen(argv[2], "r");
 						outfptr = fopen("output.dat", "w");
@@ -63,7 +61,9 @@ int main(int argc, char *argv[])
 							c = fgetc(infptr);
 						}
 					}
-				}*/		
+				
+				fclose(infptr);
+				fclose(outfptr);		
 				exit(0);
 				
 				case 'o':
@@ -76,6 +76,16 @@ int main(int argc, char *argv[])
 						c = fgetc(infptr);
 					}
 				}
+				else if(argc == 3){
+					infptr = fopen("input.dat","r");
+					outfptr = fopen(argv[2], "w");
+					c = fgetc(infptr);
+					while(c != EOF){
+						fprintf(outfptr, "%c", c);
+						c = fgetc(infptr);
+					}
+				}
+
 				fclose(infptr);
 				fclose(outfptr);
 				
@@ -156,6 +166,15 @@ int main(int argc, char *argv[])
 			default:
 			abort();
 
+		}
+	}
+	if(argc == 1){
+		infptr = fopen("input.dat", "r");
+		outfptr = fopen("output.dat", "w");
+		c = fgetc(infptr);
+		while(c != EOF){
+			fprintf(outfptr, "%c", c);
+			c = fgetc(infptr);
 		}
 	}
 	
