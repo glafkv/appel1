@@ -4,8 +4,8 @@
 
 int main(int argc, char *argv[])
 {
-	FILE *fptr = NULL;
-	FILE *out = NULL;
+	FILE *infptr = NULL;
+	FILE *outfptr = NULL;
 	//char *infile = NULL;
 	int v;
 	char filename[100], c;
@@ -30,38 +30,60 @@ int main(int argc, char *argv[])
 				printf("\t default.\n");
 				exit(0);
 			
-			//option i takes in an input file.
-			case 'i':
-				//If the user doesn't put in a file, automatically set it to input.dat. If the user does input a file, set it to what the user input.
-				if(argc != 3){
-					fptr = fopen("input.dat", "r");
-					if(fptr == NULL){
+			//option i takes in an input file. If the user does input a file, set it to what the user input.
+				//case 'o':
+				case 'i':	
+				if(argc == 5){
+					infptr = fopen(argv[2], "r");
+					if(infptr == NULL){
 						return EXIT_FAILURE;
 					}
-
-				}else {
-					fptr = fopen(argv[2],"r");
-					if(fptr == NULL){
+					outfptr = fopen(argv[4], "w");
+					if(outfptr == NULL){
+						fclose(infptr);
 						return EXIT_FAILURE;
 					}
+					c = fgetc(infptr);
+					while(c != EOF){
+						fprintf(outfptr, "%c", c);
+						c = fgetc(infptr);	
+					}
+					
 				}
-				break;
-			case 'o':
-				if(argc != 3){
-					out = fopen("output.dat", "w");
-					if(out == NULL){
-						fclose(fptr);
-						return EXIT_FAILURE;
+					fclose(infptr);
+					fclose(outfptr);
+				/*else if(argc == 3){
+					if(argc == 2 && argc == 'i'){
+					
+						infptr = fopen(argv[2], "r");
+						outfptr = fopen("output.dat", "w");
+						c = fgetc(infptr);
+						while(c != EOF){
+							fprintf(outfptr, "%c", c);
+							c = fgetc(infptr);
+						}
 					}
-				c = fgetc(fptr);
-				while(c != EOF){
-					fputc(c, out);
-					c = fgetc(fptr);
-				}
+				}*/		
+				exit(0);
 				
+				case 'o':
+				if(argc == 5){
+					infptr = fopen(argv[4], "r");
+					outfptr = fopen(argv[2], "w");
+					c = fgetc(infptr);	
+					while(c != EOF){
+						fprintf(outfptr, "%c", c);
+						c = fgetc(infptr);
+					}
+				}
+				fclose(infptr);
+				fclose(outfptr);
+				
+				//else if(argc == 3){
+					
 				//fclose(fptr);
 				//fclose(out);
-				}/*else{
+				/*else{
 					out = fopen(argv[2], "w");
 					if(out == NULL){
 						fclose(fptr);
@@ -75,7 +97,7 @@ int main(int argc, char *argv[])
 				}*/
 				//fclose(fptr);
 				//fclose(out);
-				break;
+			//	break;
 				
 				/*infile = optarg;
 				if(argc != 3){
