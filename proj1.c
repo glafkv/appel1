@@ -39,11 +39,6 @@ int main(int argc, char *argv[])
 						return EXIT_FAILURE;
 					}
 
-					c = fgetc(fptr);
-					while(c != EOF){
-						printf("%c", c);
-						c = fgetc(fptr);
-					}
 				}else {
 					fptr = fopen(argv[2],"r");
 					if(fptr == NULL){
@@ -52,20 +47,21 @@ int main(int argc, char *argv[])
 				}
 				break;
 			case 'o':
-			//	if(argc != 3){
+				if(argc != 3){
 					out = fopen("output.dat", "w");
 					if(out == NULL){
 						fclose(fptr);
 						return EXIT_FAILURE;
 					}
-				//c = fgetc(fptr);
-				//while(c != EOF){
-				//printf("%c", c);
-				//	c = fgetc(fptr);
-				//}
-			//	fclose(fptr);
-			//	fclose(out);
-				/*else{
+				c = fgetc(fptr);
+				while(c != EOF){
+					fputc(c, out);
+					c = fgetc(fptr);
+				}
+				
+				//fclose(fptr);
+				//fclose(out);
+				}/*else{
 					out = fopen(argv[2], "w");
 					if(out == NULL){
 						fclose(fptr);
