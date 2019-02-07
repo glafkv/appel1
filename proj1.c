@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 					//Get the information from the read file, then print to the write file
 					c = fgetc(infptr);
 					while(c != EOF){
+					//	fscanf(infptr, "%[^\n]", c);
 						fprintf(outfptr, "%c", c);
 						c = fgetc(infptr);	
 					}
@@ -77,6 +78,7 @@ int main(int argc, char *argv[])
 					//Get the info from the read, print to the write.
 					c = fgetc(infptr);
 					while(c != EOF){
+						//fscanf(infptr, "%[^\n]", c);
 						fprintf(outfptr, "%c", c);
 						c = fgetc(infptr);
 					}
@@ -105,6 +107,7 @@ int main(int argc, char *argv[])
 					//Read then write to the file
 					c = fgetc(infptr);	
 					while(c != EOF){
+					//	fscanf(infptr, "%[^\n]", c);
 						fprintf(outfptr, "%c", c);
 						c = fgetc(infptr);
 					}
@@ -126,15 +129,17 @@ int main(int argc, char *argv[])
 					//Read from then write to the file
 					c = fgetc(infptr);
 					while(c != EOF){
+					//	fscanf(infptr, "%[^\n]", c);
 						fprintf(outfptr, "%c", c);
 						c = fgetc(infptr);
 					}
+
 				}
 				//Close out ya files
 				fclose(infptr);
 				fclose(outfptr);
 			
-				                                                                             
+				exit(0);                                                                     
 				
 	
 			case '?':
@@ -162,10 +167,13 @@ int main(int argc, char *argv[])
 		}
 		c = fgetc(infptr);
 		while(c != EOF){
+	//		fscanf(infptr, "%[^\n]", c);
 			fprintf(outfptr, "%c", c);
 			c = fgetc(infptr);
 		}
 	}
-	
+	fclose(infptr);
+	fclose(outfptr);
+
 	return 0;
 }
