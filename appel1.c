@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	FILE *outfptr = NULL;
 	char *infile = "input.dat";
 	char *outfile = "output.dat";
-	char c[1000];
+	char c;
 	int x, i,s, nums;
 	//char *nums = NULL;
 	char charac;
@@ -56,16 +56,38 @@ int main(int argc, char *argv[])
 		//printf("Next = %d\n", s);
 	
 	}
+	
 	for(i = 1; i < x; i++){
 		if(childpid = fork())
 			break;
 	}
-	while(!EOF){
-	fscanf(infptr, "%d", &s);
-	printf("Second: %d\n", s);
-	
+
+/*int q;
+	c = fgetc(infptr);
+	while(c != EOF){
+		
+		fscanf(infptr, "%d", &s);
+		printf(" %d", s);
+		for(i = 0; i <s; i++){
+			fscanf(infptr, "%[^\n]%d", &q);
+			printf(" %d", q);
+			
+		}
+		c = fgetc(infptr);
 	}
+	printf("\n");*/
 	
+	//This currently prints out 3 copies of the first line.
+	//need to figure out how to make it move down
+	fscanf(infptr, "%d", &s);
+	printf("Next: %d", s);
+	int q;
+	for(i = 0; i< s; i++){
+		fscanf(infptr, "%d", &q);
+		printf(" %d", q);
+		
+	}
+	printf("\n");
 	/*for(i = 0; i < nums -1; i++){
 		scanf(" %c", charac);
 		infile[i] = charac;
