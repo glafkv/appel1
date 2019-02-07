@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	char *outfile = "output.dat";
 	char c[1000];
 	//char *nums = NULL;
-	//int i;
+	int i;
 
 	
 	//getopt statement
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	//printf("input file: %s, output file: %s", infile, outfile);
-	
+	int x;
 	infptr = fopen(infile, "r");
 	if((infptr = fopen(infile, "r"))!=NULL){
 		int x;
@@ -52,19 +52,27 @@ int main(int argc, char *argv[])
 		printf("First = %d\n",x);
 	}	
 	
-/*if((infptr = fopen(infile, "r")) == NULL){
-		printf("Error!");
-		exit(1);
-//	}
-	int i = 0;
-	fscanf(infptr, "%d", &i);
-	while(!feof (infptr)){
-		printf("%d ", i);*/
-	//	fscanf(infptr, "%d", &i);
-//	}
-	//fscanf(infptr, "%[^\n]", infile);
-	
-	//printf("Data:\n%s",infile);
+	//this takes in the first number of the file and assigns it to x
+	//now I need to read the next line of the file, assign it to a variable
+	//this will tell me how many numbers are going into the stack
+	//read the next line, put the numbers into the stack
+	//print the child PID then the numbers from the stack in reverse order
+	//I think it would go, while not end of file, read the second number, 
+	//
+	//do one set at a time. 
+	//the forked off copy will read the next two lines, will terminate
+	//when it's done
+
+	//This is forking awesome
+	for(i = 1; i < x; i++){
+		if(childpid = fork()){
+			break;
+		}
+	}
+	fprintf(stderr, "i: %d\t", i);
+	fprintf(stderr, "process ID: %ld\t", (long)getpid());
+	fprintf(stderr, "parent ID: %ld\t", (long)getppid());
+	fprintf(stderr, "child ID: %ld\n", (long)childpid);
 	fclose(infptr);
 
 return 0;
