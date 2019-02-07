@@ -9,39 +9,12 @@ int main(int argc, char *argv[])
 	int choice = 0;
 	FILE *infptr = NULL;
 	FILE *outfptr = NULL;
-	char filename[100];
+	char *infile = "input.dat";
+	char *outfile = "output.dat";
+	char c[1000];
 	//char *nums = NULL;
-	int i;
-	//Checking the arguments.
-	if(argc == 5){
-		//Allows it to take in two user-made text files.
-		//input file first, then output file
-		if(strcmp(argv[1],"-i")==0){
-			infptr = fopen(argv[2],"r");
-			outfptr = fopen(argv[4], "w");
-		
-		//Allows it to take in two user-made text files.
-		//output file first, then input file
-		}else if(strcmp(argv[1],"-o")==0){
-			infptr = fopen(argv[4], "r");
-			outfptr = fopen(argv[2], "w");
-		}
-		
-	} else if(argc == 3){
-		//User puts in input file, default output file
-		if(strcmp(argv[1],"-i")==0){
-			infptr = fopen(argv[2], "r");
-			outfptr = fopen("output.dat", "w");
-		//User puts in output file, default input file
-		}else{
-			infptr = fopen("input.dat", "r");
-			outfptr = fopen(argv[2], "w");
-		}
-	//If user doesn't input anything, default files
-	} else if(argc == 1){
-		infptr = fopen("input.dat", "r");
-		outfptr = fopen("output.dat","w");
-	} 
+	//int i;
+
 	
 	//getopt statement
 	while((choice = getopt(argc, argv, "hi:o:")) != -1){
@@ -55,11 +28,11 @@ int main(int argc, char *argv[])
 				exit(0);
 
 			case 'i':
-				filename = optarg;
+				infile = optarg;
 				break;
 			
 			case 'o':
-				filename = optarg;
+				outfile = optarg;
 				break;
 
 			case '?':
@@ -70,16 +43,29 @@ int main(int argc, char *argv[])
 			abort();
 		}
 	}
+	//printf("input file: %s, output file: %s", infile, outfile);
 	
-	filename = atoi(argv[2]);
-
-	for(i = 1; i < c; i++){
-		if(childpid = fork()){
-			break;
-		}
-	}
+	infptr = fopen(infile, "r");
+	if((infptr = fopen(infile, "r"))!=NULL){
+		int x;
+		fscanf(infptr, "%d", &x);
+		printf("First = %d\n",x);
+	}	
 	
-	fprintf(stderr, "process ID: %ld\t", (long)getpid());
+/*if((infptr = fopen(infile, "r")) == NULL){
+		printf("Error!");
+		exit(1);
+//	}
+	int i = 0;
+	fscanf(infptr, "%d", &i);
+	while(!feof (infptr)){
+		printf("%d ", i);*/
+	//	fscanf(infptr, "%d", &i);
+//	}
+	//fscanf(infptr, "%[^\n]", infile);
+	
+	//printf("Data:\n%s",infile);
+	fclose(infptr);
 
 return 0;
 }
