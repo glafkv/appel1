@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	FILE *outfptr = NULL;
 	char *infile = "input.dat";
 	char *outfile = "output.dat";
-	char c;
+	char c[100];
 	int x, i,s, nums;
 	//char *nums = NULL;
 	char charac;
@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 
 			case 'i':
 				infile = optarg;
+				
 				break;
 			
 			case 'o':
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 	//printf("input file: %s, output file: %s", infile, outfile);
 
 
-	
+	outfptr = fopen(outfile, "w");
 	if((infptr = fopen(infile, "r")) != NULL){
 		fscanf(infptr, "%d", &x);
 		printf("First= %d\n", x);
@@ -56,10 +57,23 @@ int main(int argc, char *argv[])
 		//printf("Next = %d\n", s);
 	
 	}
-	
-	for(i = 1; i < x; i++){
-		if(childpid = fork())
-			break;
+	childpid = fork();
+	for(i = 1; i <= x; i++){
+		if(childpid< 0){
+			fprintf(stderr, "fork Failed");
+			return 1;
+		} else if(childpid == 0){
+			//This will read the next two lines and print to outfile.
+			//I need to figure out how to read the first number,
+			//What am I doing wrong??
+			fgets(c, sizeof(c), infptr);
+			fprintf(outfptr,"%s", c);
+		
+		
+			printf("Child pid: %d\n", getpid());
+		} else{
+			printf("parent pid: %d , child: %d\n", getpid(),childpid);
+		}
 	}
 
 /*int q;
@@ -79,15 +93,35 @@ int main(int argc, char *argv[])
 	
 	//This currently prints out 3 copies of the first line.
 	//need to figure out how to make it move down
-	fscanf(infptr, "%d", &s);
+	/*fscanf(infptr, "%d", &s);
 	printf("Next: %d", s);
+	printf("\n");
 	int q;
-	for(i = 0; i< s; i++){
+	for(i = 0; i<= s; i++){
 		fscanf(infptr, "%d", &q);
 		printf(" %d", q);
 		
 	}
 	printf("\n");
+	int f;
+	
+	fscanf(infptr, "%d", &f);
+	printf("Again: %d\n", f);
+	int p;
+	for(i = 0; i <= f; i++){
+		fscanf(infptr, "%d", &p);
+		printf(" %d", p);
+	}
+	printf("\n");
+	int b;
+	fscanf(infptr, "%d", &b);
+	printf("One more: %d\n ", b);
+	int u;
+	for(i = 0; i <= b; i++){
+		fscanf(infptr, " %d", &u);
+		printf(" %d", u);
+	}*/
+	
 	/*for(i = 0; i < nums -1; i++){
 		scanf(" %c", charac);
 		infile[i] = charac;
