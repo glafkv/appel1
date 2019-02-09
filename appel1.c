@@ -2,20 +2,44 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+
+int stack[30];
+int top;
+void push(int e){
+	top = top +1;
+	stack[top] = e;
+}
+int pop(){
+	int x=stack[top];
+	top--;
+	return x;
+}
+void clearstack(){
+	top = -1;
+}
 
 int main(int argc, char *argv[])
 {
 	//Declaration of variables;
 	pid_t childpid = 0;
 	int choice = 0;
+	int n;
 	FILE *infptr = NULL;
 	FILE *outfptr = NULL;
+	
 	char *infile = "input.dat";
 	char *outfile = "output.dat";
-	char c[100];
-	int x, i,s, nums;
+	infptr = fopen(infile, "r");
+	outfptr = fopen(outfile, "w");
+	//infptr = fopen("input.dat","r");
+	//outfptr = fopen("output.dat","w");
+	n = getw(infptr);
+	int i, m, j, x;
+	///char c[100];
+	//int x, i,s, nums;
 	//char *nums = NULL;
-	char charac;
+	//char charac;
 
 	
 	//getopt statement
@@ -57,6 +81,7 @@ int main(int argc, char *argv[])
 		//printf("Next = %d\n", s);
 	
 	}
+
 	childpid = fork();
 	for(i = 1; i <= x; i++){
 		if(childpid< 0){
@@ -66,92 +91,23 @@ int main(int argc, char *argv[])
 			//This will read the next two lines and print to outfile.
 			//I need to figure out how to read the first number,
 			//What am I doing wrong??
-			fgets(c, sizeof(c), infptr);
-			fprintf(outfptr,"%s", c);
-		
-		
-			printf("Child pid: %d\n", getpid());
+			m = getw(infptr);
+			clearstack();
+			for(j = 1; j <= m; j++){
+				push(getw(infptr));
+			}
+			for(j= 1; j <= m; j++){
+				putw(pop(), outfptr);
+			}
+			putw(getpid(), outfptr);
 		} else{
 			printf("parent pid: %d , child: %d\n", getpid(),childpid);
 		}
 	}
+	putw(getpid(), outfptr);
 
-/*int q;
-	c = fgetc(infptr);
-	while(c != EOF){
-		
-		fscanf(infptr, "%d", &s);
-		printf(" %d", s);
-		for(i = 0; i <s; i++){
-			fscanf(infptr, "%[^\n]%d", &q);
-			printf(" %d", q);
-			
-		}
-		c = fgetc(infptr);
-	}
-	printf("\n");*/
-	
-	//This currently prints out 3 copies of the first line.
-	//need to figure out how to make it move down
-	/*fscanf(infptr, "%d", &s);
-	printf("Next: %d", s);
-	printf("\n");
-	int q;
-	for(i = 0; i<= s; i++){
-		fscanf(infptr, "%d", &q);
-		printf(" %d", q);
-		
-	}
-	printf("\n");
-	int f;
-	
-	fscanf(infptr, "%d", &f);
-	printf("Again: %d\n", f);
-	int p;
-	for(i = 0; i <= f; i++){
-		fscanf(infptr, "%d", &p);
-		printf(" %d", p);
-	}
-	printf("\n");
-	int b;
-	fscanf(infptr, "%d", &b);
-	printf("One more: %d\n ", b);
-	int u;
-	for(i = 0; i <= b; i++){
-		fscanf(infptr, " %d", &u);
-		printf(" %d", u);
-	}*/
-	
-	/*for(i = 0; i < nums -1; i++){
-		scanf(" %c", charac);
-		infile[i] = charac;
-		if(i == nums -1){
-			infile[i+1] = '\0';
-		}
-	}*/
-	//printf("ID: %ld\n", (long)getpid());
-	//this takes in the first number of the file and assigns it to x
-	//now I need to read the next line of the file, assign it to a variable
-	//this will tell me how many numbers are going into the stack
-	//read the next line, put the numbers into the stack
-	//print the child PID then the numbers from the stack in reverse order
-	//I think it would go, while not end of file, read the second number, 
-	//
-	//do one set at a time. 
-	//the forked off copy will read the next two lines, will terminate
-	//when it's done
 
-	//This is forking awesome
-//	for(i = 1; i < x; i++){
-//		if(childpid = fork()){
-//			break;
-//		}
-//	}
-//	fprintf(stderr, "i: %d\t", i);
-//	fprintf(stderr, "process ID: %ld\t", (long)getpid());
-//	fprintf(stderr, "parent ID: %ld\t", (long)getppid());
-//	fprintf(stderr, "child ID: %ld\n", (long)childpid);
 	fclose(infptr);
-
+	fclose(outfptr);
 return 0;
 }
