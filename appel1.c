@@ -3,38 +3,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
-int stack[30];
-int top;
-void push(int e){
-	top = top +1;
-	stack[top] = e;
-}
-int pop(){
-	int x=stack[top];
-	top--;
-	return x;
-}
-void clearstack(){
-	top = -1;
-}
 
 int main(int argc, char *argv[])
 {
 	//Declaration of variables;
-	pid_t childpid = 0;
+	pid_t childpid;
 	int choice = 0;
-	int n;
 	FILE *infptr = NULL;
 	FILE *outfptr = NULL;
-	
 	char *infile = "input.dat";
 	char *outfile = "output.dat";
-
-	//n = getw(infptr);
-	int i, m, j, x;
-	
-
+	int i, x;
+	char num[150];
 	
 	//getopt statement
 	while((choice = getopt(argc, argv, "hi:o:")) != -1){
@@ -64,29 +46,45 @@ int main(int argc, char *argv[])
 			abort();
 		}
 	}
-	//printf("input file: %s, output file: %s", infile, outfile);
+	//open the files
 	infptr = fopen(infile, "r");
 
 	outfptr = fopen(outfile, "w");
 	//Read in the first number.
 	fscanf(infptr, "%d", &x);
-	//Loop to that first number.
-	for(i = 0; i < x; i++){
 		
-		if(fork()==0){
-			fprintf(outfptr,"child: %d parent: %d\n", getpid(), getppid());
-			exit(0);
-		}else{
-			wait(NULL);
-		}
-	}
+	//Loop up to the first num. 
 	for(i = 0; i < x; i++){
-		wait(NULL);
+	if((childpid = fork())  == -1){
+		perror("fork error");
+		exit(EXIT_FAILURE);
 	}
 	
+	 else if(childpid == 0){
+		//get pid of child
+		fprintf(outfptr, "Child: %d\n", getpid());
+		exit(0);
+	}
+	else {
+		wait(NULL);
+		
+	}
+	}
+	//Get pid of parent
+	fprintf(outfptr, "Parent: %d\n", getppid());
+	//This isn't right, but I tried my darndest.
+	//Print numbers backwards
+	while(fgets(num, 150, infptr)){
+		for(i = strlen(num) -1; i>=0; i--){
+			fprintf(outfptr, "%c", num[i]);
+		}
+	}
+	fprintf(outfptr, "\n");
 
 	//Close your files.
 	fclose(infptr);
 	fclose(outfptr);
 return 0;
 }
+
+
